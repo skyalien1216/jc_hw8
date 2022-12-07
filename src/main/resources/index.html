@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head>
+    <title>index</title>
+    <style type="text/css">
+   * {
+    background: black;
+    color: white;
+   }
+
+   a, b{
+   color: blue;
+   }
+   h1,h2,h4{
+   color: grey;
+   }
+  </style>
+</head>
+<body>
+<h1>Руководство по использованию</h1>
+
+<p>
+    Перед работой с бд ее необходимо создать. В модуле db в пакете org.java_courses запустите класс Main. В этом же пакете в классе CREDS хранятся креды для подключения к бд
+</p>
+
+<p>
+    Чтобы просмотреть товары нужно послать GET запрос такого вида <a href="http://localhost:3466/products/all">http://localhost:3466/products/all</a>
+</p>
+<p>
+    Для просмотра товаров определенной организации нужно послать GET запрос <a href="http://localhost:3466/products/getByOrganization/org2">http://localhost:3466/products/getByOrganization/org2</a>
+</p>
+
+<h2>POST запросы:</h2>
+<h4>Добавление товара</h4>
+<p>
+В консоли запустить <b>curl  -H "Content-Type: application/json" -X POST -d "{\"product_name\":\"yellow\",\"organization_name\":\"renault\",\"amount\":123}" http://localhost:3466/products/add</b>
+</p>
+<h4>Удаление товара</h4>
+<p>
+    В консоли запустить <b>curl  -H "Content-Type: application/json" -X POST -d "yellow" http://localhost:3466/products/delete</b>
+</p>
+
+</body>
+</html>
