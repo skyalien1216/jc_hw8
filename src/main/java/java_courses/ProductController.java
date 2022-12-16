@@ -1,11 +1,10 @@
 package java_courses;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import dao.OrganizationDAO;
 import dao.ProductDAO;
 import entity.Organization;
 import entity.Product;
+import jakarta.annotation.security.RolesAllowed;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -24,6 +23,7 @@ public class ProductController {
     }
 
     //curl  -H "Content-Type: application/json" -X POST -d "{\"product_name\":\"yellow\",\"organization_name\":\"renault\",\"amount\":123}" http://localhost:3466/products/add
+    @RolesAllowed("manager")
     @Path("/add")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -32,12 +32,12 @@ public class ProductController {
         if (!organizationDao.dbHas(p.getOrgName()))
             organizationDao.save(new Organization(p.getOrgName()));
         productDao.save(p);
-        ObjectNode json = new ObjectMapper().createObjectNode();
-        json.put("status", "200//ok");
-        return Response.status(Response.Status.OK).entity(json).build();
+
+        return Response.status(Response.Status.OK).build();
     }
 
     //http://localhost:3466/products/all
+
     @Path("/all")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -47,18 +47,16 @@ public class ProductController {
     }
 
     //curl  -H "Content-Type: application/json" -X POST -d "yellow" http://localhost:3466/products/delete
+    @RolesAllowed("manager")
     @Path("/delete")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response deleteProductByName(String name) {
-        ObjectNode json = new ObjectMapper().createObjectNode();
-        if (productDao.deleteByName(name)) {
-            json.put("status", "200//ok");
-            return Response.status(Response.Status.OK).entity(json).build();
-        }
-        json.put("status", "404//product doesn't exist");
-        return Response.status(Response.Status.NOT_FOUND).entity(json).build();
+        if (productDao.deleteByName(name))
+            return Response.status(Response.Status.OK).build();
+
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     //http://localhost:3466/products/getByOrganization/org2

@@ -13,6 +13,9 @@ repositories {
 dependencies {
     implementation(project(":db"))
 
+    implementation('org.flywaydb:flyway-core:9.8.3')
+    implementation('org.postgresql:postgresql:42.5.1')
+
     implementation group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '11.0.9'
     implementation group: 'org.eclipse.jetty', name: 'jetty-proxy', version: '11.0.9'
 
